@@ -45,4 +45,9 @@ for item in $SELECTED; do
   fi
 done
 
+if gum confirm "Agregar configuración zsh a .zshrc?"; then
+  log_info "Agregando configuración zsh..."
+  echo "source $HOME/.config/zsh/config.zsh" >>~/.zshrc
+fi
+
 print_banner "¡Todo listo, Archer! Disfruta tu setup."

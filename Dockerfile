@@ -4,7 +4,7 @@ FROM ubuntu:22.04
 # Evitar que apt-get haga preguntas interactivas durante el build
 ENV DEBIAN_FRONTEND=noninteractive \
     TEST_MODE=1 \
-    AUTO_SELECT="nvim kitty rust" \
+    AUTO_SELECT="nvim kitty rust zsh" \
     TERM=xterm-256color \
     LC_ALL=C.UTF-8 \
     LANG=C.UTF-8
