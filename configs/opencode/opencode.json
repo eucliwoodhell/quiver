@@ -1,0 +1,24 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "abacus": {
+      "name": "Abacus AI",
+      "npm": "@ai-sdk/openai-compatible",
+      "models": {
+        "route-llm": {
+          "name": "Route LLM"
+        }
+      },
+      "options": {
+        "baseURL": "https://routellm.abacus.ai/v1/",
+        "apiKey": "__ABACUS_API_KEY__"
+      }
+    }
+  },
+  "mcp": {
+    "jcodemunch": {
+      "command": ["uvx", "jcodemunch-mcp"],
+      "type": "local"
+    }
+  }
+}

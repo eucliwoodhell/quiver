@@ -4,7 +4,7 @@ FROM ubuntu:22.04
 # Evitar que apt-get haga preguntas interactivas durante el build
 ENV DEBIAN_FRONTEND=noninteractive \
     TEST_MODE=1 \
-    AUTO_SELECT="nvim kitty rust zsh" \
+    AUTO_SELECT="nvim kitty rust zsh colima opencode fish" \
     TERM=xterm-256color \
     LC_ALL=C.UTF-8 \
     LANG=C.UTF-8
@@ -13,6 +13,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 RUN apt-get update && apt-get install -y \
     sudo \
     curl \
+    zsh \
     git \
     gnupg \
     software-properties-common \
@@ -36,6 +37,6 @@ COPY --chown=archer:archer . .
 RUN chmod +x install.sh
 
 # 4. Comando por defecto
-# Al arrancar, ejecutará el script. 
-# Como es Ubuntu, tu script debería detectar 'debian' y usar 'apt'
+# Al arrancar, ejecutará el script con Bash explícitamente.
+# El script tiene shebang #!/usr/bin/env bash
 CMD ["/bin/bash", "./install.sh"]

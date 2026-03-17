@@ -7,6 +7,7 @@ export MODULES_DIR="$DOTFILES_DIR/modules"
 
 # --- Cargar Utilidades ---
 source "$DOTFILES_DIR/lib/utils.sh"
+source "$DOTFILES_DIR/lib/plugins.sh"
 
 # --- Detección de OS y Package Manager ---
 detect_os
@@ -20,6 +21,8 @@ print_banner "QUIVER: Archer's Dotfiles Manager"
 # 1. Escanear módulos disponibles en la carpeta modules/
 MODULE_FILES=($(ls "$MODULES_DIR"/*.sh))
 MODULE_NAMES=()
+
+plugins_install
 
 # 2. Mostrar menú interactivo con GUM
 if [ -n "$AUTO_SELECT" ]; then
