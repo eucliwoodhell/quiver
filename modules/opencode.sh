@@ -16,12 +16,16 @@ focus_install() {
 
 add_opencode_config() {
   log_info "Agregando configuración de Opencode..."
-  local src="$CONFIGS_DIR/opencode/opencode.json"
+  local src="$CONFIGS_DIR/opencode/"
   local dest="$HOME/.config/opencode"
 
   if [ -d "$src" ]; then
     log_info "Linkeando configuración de opencode..."
     mkdir -p "$HOME/.config/opencode"
-    ln -sfn "$src" "$dest/opencode.json"
+    ln -sfn "$src/opencode.json" "$dest/opencode.json"
+
+    log_info "Agregando themes de opencode..."
+    mkdir -p "$HOME/.config/opencode/themes"
+    ln -sfn "$src/themes/"* "$dest/themes/"
   fi
 }
