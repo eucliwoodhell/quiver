@@ -15,4 +15,24 @@ install_manga_reader() {
     log_info "Instalando Manga Reader..."
     cargo install manga-tui
   fi
+
+  if gum confirm "Instalar Ghgrab?"; then
+    log_info "Instalando Ghgrab..."
+    cargo install ghgrab
+  fi
+
+  if gum confirm "Instalar Deadbranch?"; then
+    log_info "Instalando Manga Downloader..."
+    cargo install deadbranch
+  fi
+
+  if gum confirm "Instalar flux" then
+    log_info "Instalando flux..."
+    cargo install flux-cli
+  fi
+
+  if gum confirm "Instalar suvadu" then
+    cargo install suvadu
+    echo 'eval "$(suv init zsh)"' >> ~/.zshrc && source ~/.zshrc
+  fi
 }

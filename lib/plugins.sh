@@ -52,6 +52,7 @@ plugins_install() {
     # COMPRESSION / ZIP
     # ============================================
     $PKM pigz
+    npx @aitutor/cli@latest
     ;;
   debian)
     # ============================================
@@ -100,6 +101,7 @@ plugins_install() {
     # COMPRESSION / ZIP
     # ============================================
     $PKM pigz
+    npx @aitutor/cli@latest
     ;;
   mac)
     # ============================================
@@ -149,6 +151,9 @@ plugins_install() {
     # COMPRESSION / ZIP
     # ============================================
     $PKM pigz
+
+    brew tap naorpeled/tap
+    $PKM aitutor
     ;;
   esac
   return 0
