@@ -1,160 +1,73 @@
 #!/usr/bin/env bash
 
-plugins_install() {
-  log_info "Instalando Plugins..."
+spin() {
+  gum spin --spinner dot --title "$1" -- bash -c "$2" 2>/dev/null
+}
+
+install_system_utils() {
+  log_info "Instalando utilidades del sistema..."
 
   case "$OS_TYPE" in
   arch)
-    # ============================================
-    # SYSTEM TOOLS
-    # ============================================
-    $PKM jq
-    $PKM curl
-    $PKM wget
-    $PKM ctags
-    $PKM net-tools
-    $PKM inetutils
-    $PKM htop
-    $PKM btop
-    $PKM pigz
-    $PKM ripgrep
-    $PKM fzf
-    $PKM lsd
-    $PKM imagemagick
-    $PKM neofetch
-
-    # ============================================
-    # DEVELOPMENT TOOLS
-    # ============================================
-    $PKM nodejs
-    $PKM cmake
-    $PKM git
-    $PKM docker
-    $PKM atuin
-    $PKM uv
-    $HOME/.local/bin/uv tool install --python 3.12 posting
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
-
-    # ============================================
-    # AUR PACKAGES (via yay)
-    # ============================================
-    yay -S minikube
-    yay -S pyenv
-    yay -S postman-bin
-    yay -S git-chglog
-    yay -S aws-cli-v2
-    yay -S kubecolor
-    yay -S catimg
-    yay -S gotop
-    yay -S firefox
-
-    # ============================================
-    # COMPRESSION / ZIP
-    # ============================================
-    $PKM pigz
-    npx @aitutor/cli@latest
+    gum spin --spinner dot --title "Sistema (Arch)" -- $PKM jq curl wget ctags net-tools inetutils htop btop pigz ripgrep fzf lsd imagemagick neofetch
     ;;
   debian)
-    # ============================================
-    # SYSTEM TOOLS
-    # ============================================
-    $PKM jq
-    $PKM curl
-    $PKM wget
-    $PKM exuberant-ctags
-    $PKM net-tools
-    $PKM telnet
-    $PKM htop
-    $PKM btop
-    $PKM pigz
-    $PKM ripgrep
-    $PKM fzf
-    $PKM imagemagick
-    $PKM neofetch
-    $PKM firefox
-
-    # ============================================
-    # DEVELOPMENT TOOLS
-    # ============================================
-    sudo $PKM nodejs npm
-    $PKM cmake
-    $PKM git
-    $PKM docker.io
-
-    curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh -s -- --non-interactive
-    curl -LsSf https://astral.sh/uv/install.sh | sh
-    $HOME/.local/bin/uv tool install --python 3.12 posting
-
-    # ============================================
-    # TOOLS FROM GITHUB RELEASES
-    # ============================================
-    # kubecolor
-    curl -Lo /tmp/kubecolor.tar.gz https://github.com/kubecolor/kubecolor/releases/latest/download/kubecolor_linux_amd64.tar.gz
-    tar -xzf /tmp/kubecolor.tar.gz -C /usr/local/bin kubecolor
-
-    # lsd
-    sudo curl -L -o lsd.deb https://github.com/lsd-rs/lsd/releases/download/v1.2.0/lsd_1.2.0_arm64.deb
-    sudo dpkg -i lsd.deb
-
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
-    # ============================================
-    # COMPRESSION / ZIP
-    # ============================================
-    $PKM pigz
-    npx @aitutor/cli@latest
+    gum spin --spinner dot --title "Sistema (Debian)" -- bash -c "$PKM jq curl wget exuberant-ctags net-tools telnet htop btop pigz ripgrep fzf imagemagick neofetch"
+    curl -sL -o /tmp/lsd.deb https://github.com/lsd-rs/lsd/releases/download/v1.2.0/lsd_1.2.0_amd64.deb
+    gum spin --spinner dot --title "Instalando lsd" -- sudo dpkg -i /tmp/lsd.deb
     ;;
   mac)
-    # ============================================
-    # SYSTEM TOOLS
-    # ============================================
-    $PKM jq
-    $PKM curl
-    $PKM wget
-    $PKM ctags
-    $PKM netstat
-    $PKM telnet
-    $PKM htop
-    $PKM btop
-    $PKM pigz
-    $PKM ripgrep
-    $PKM fzf
-    $PKM lsd
-    $PKM catimg
-    $PKM imagemagick
-    $PKM neofetch
-    $PKM --cask rectangle
-    $PKM --cask firefox
-    $PKM stats
-    $PKM gotop
-
-    # ============================================
-    # DEVELOPMENT TOOLS
-    # ============================================
-    $PKM node
-    $PKM cmake
-    $PKM git
-    $PKM minikube
-    $PKM pyenv
-    $PKM docker
-    $PKM --cask mongodb-compass
-    $PKM --cask postman
-    brew tap git-chglog/git-chglog
-    $PKM git-chglog
-    $PKM awscli
-    $PKM kubecolor
-    $PKM atuin
-    $PKM uv
-    uv tool install --python 3.12 posting
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
-
-    # ============================================
-    # COMPRESSION / ZIP
-    # ============================================
-    $PKM pigz
-
-    brew tap naorpeled/tap
-    $PKM aitutor
+    gum spin --spinner dot --title "Sistema (macOS)" -- $PKM jq curl wget ctags htop btop pigz ripgrep fzf lsd imagemagick neofetch
     ;;
   esac
-  return 0
+}
+
+install_dev_utils() {
+  log_info "Instalando herramientas de desarrollo..."
+
+  case "$OS_TYPE" in
+  arch)
+    gum spin --spinner dot --title "Dev tools (Arch)" -- $PKM nodejs cmake git docker atuin uv
+    gum spin --spinner dot --title "uv + posting" -- $HOME/.local/bin/uv tool install --python 3.12 posting
+    gum spin --spinner dot --title "nvm" -- bash -c "curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash"
+    ;;
+  debian)
+    gum spin --spinner dot --title "Dev tools (Debian)" -- bash -c "sudo $PKM nodejs npm cmake git docker.io"
+    gum spin --spinner dot --title "atuin" -- bash -c "curl -fsSL https://setup.atuin.sh | sh -s -- --non-interactive"
+    gum spin --spinner dot --title "uv" -- bash -c "curl -fsSL https://astral.sh/uv/install.sh | sh"
+    gum spin --spinner dot --title "uv + posting" -- $HOME/.local/bin/uv tool install --python 3.12 posting
+    gum spin --spinner dot --title "nvm" -- bash -c "curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash"
+    ;;
+  mac)
+    gum spin --spinner dot --title "Dev tools (macOS)" -- $PKM node cmake git minikube pyenv docker atuin uv
+    gum spin --spinner dot --title "uv + posting" -- uv tool install --python 3.12 posting
+    gum spin --spinner dot --title "nvm" -- bash -c "curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash"
+    ;;
+  esac
+}
+
+install_extra_utils() {
+  log_info "Instalando herramientas extras..."
+
+  case "$OS_TYPE" in
+  arch)
+    gum spin --spinner dot --title "Extras (AUR)" -- yay -S minikube pyenv postman-bin git-chglog aws-cli-v2 kubecolor catimg gotop firefox
+    ;;
+  debian)
+    gum spin --spinner dot --title "firefox" -- $PKM firefox
+    curl -fsSL -o /tmp/kubecolor.tar.gz https://github.com/kubecolor/kubecolor/releases/latest/download/kubecolor_linux_amd64.tar.gz
+    gum spin --spinner dot --title "kubecolor" -- tar -xzf /tmp/kubecolor.tar.gz -C /usr/local/bin kubecolor
+    ;;
+  mac)
+    gum spin --spinner dot --title "Extras (macOS)" -- $PKM --cask rectangle firefox mongodb-compass postman awscli kubecolor
+    gum spin --spinner dot --title "git-chglog tap" -- brew tap git-chglog/git-chglog
+    gum spin --spinner dot --title "git-chglog" -- $PKM git-chglog
+    ;;
+  esac
+}
+
+plugins_install() {
+  install_system_utils
+  install_dev_utils
+  install_extra_utils
 }

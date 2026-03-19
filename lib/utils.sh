@@ -39,7 +39,6 @@ ensure_gum() {
       sudo apt update && sudo apt install gum
       ;;
     mac)
-      # check if exist homebrew
       if ! command -v brew &>/dev/null; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
       fi
@@ -64,11 +63,7 @@ link_config() {
 ensure_git() {
   if ! command -v git &>/dev/null; then
     log_info "Instalando Git..."
-    case "$OS_TYPE" in
-    arch) $PKM git ;;
-    debian) $PKM git ;;
-    mac) $PKM git ;;
-    esac
+    gum spin --spinner dot --title "Instalando git" -- $PKM git
   fi
 }
 
@@ -79,3 +74,39 @@ log_warn() { echo -e "${YELLOW}${BOLD}WARN:${RESET} $1"; }
 log_error() { echo -e "${RED}${BOLD}ERROR:${RESET} $1"; }
 log_section() { echo -e "\n${BOLD}--- $1 ---${RESET}"; }
 print_banner() { echo -e "${BLUE}${BOLD}$1${RESET}\n"; }
+
+run_spin() {
+  gum spin --spinner dot --title "$1" -- $2 >/dev/null 2>&1
+}
+
+select_utilities() {
+  log_info "Selecciona las categorías a instalar con [ESPACIO] y confirma con [ENTER]"
+
+  SELECTED=$(gum choose --no-limit --cursor-prefix "○ " --selected-prefix "◉ " --unselected-prefix "○ " \
+    "Sistema (jq, curl, ripgrep, htop, fzf...)" \
+    "Desarrollo (git, docker, node, pyenv...)" \
+    "Extras (firefox, postman, minikube...)")
+
+  echo "$SELECTED"
+}
+
+install_selected_utilities() {
+  local selections="$1"
+  [ -z "$selections" ] && return 0
+
+  source "$DOTFILES_DIR/lib/plugins.sh"
+
+  for item in $selections; do
+    case "$item" in
+    Sistema*)
+      install_system_utils
+      ;;
+    Desarrollo*)
+      install_dev_utils
+      ;;
+    Extras*)
+      install_extra_utils
+      ;;
+    esac
+  done
+}

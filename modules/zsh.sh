@@ -2,13 +2,9 @@
 
 focus_install() {
   log_info "Instalando Oh My Zsh..."
-  case "$OS_TYPE" in
-  arch) $PKM zsh ;;
-  debian) $PKM zsh ;;
-  mac) $PKM zsh ;;
-  esac
+  gum spin --spinner dot --title "zsh" -- $PKM zsh
 
-  install_powerline_fonts
+  install_omz_plugins
   link_config "zsh"
   return 0
 }
@@ -17,25 +13,19 @@ install_omz_plugins() {
   local plugins_dir="/usr/share/zsh/plugins"
   sudo mkdir -p "$plugins_dir"
 
-  case "$OS_TYPE" in
-  arch) $PKM zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search ;;
-  debian) $PKM zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search ;;
-  mac) $PKM zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search ;;
-  *)
-    log_error "OS desconocida. No se instalaron plugins de Zsh."
-    ;;
-  esac
+  gum spin --spinner dot --title "zsh plugins" -- $PKM zsh-autosuggestions zsh-syntax-highlighting
 
-  if gum confirm "Quieres instalar el theme Powerlevel10k?"; then
-    log_info "Instalando Powerlevel10k..."
+  if gum confirm "Instalar theme Powerlevel10k?"; then
     case "$OS_TYPE" in
-    arch)
-      git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $plugins_dir/powerlevel10k
+    arch | debian)
+      gum spin --spinner dot --title "Powerlevel10k" -- git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $plugins_dir/powerlevel10k
+      log_info "Configurando Powerlevel10k..."
+      gum spin --spinner dot --title "history-substring-search" -- git clone --depth=1 git clone https://github.com/zsh-users/zsh-history-substring-search $plugins_dir/zsh-history-substringtsearch
+      log_info "Configurando zsh-history-substring-search..."
       ;;
-    debian)
-      git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $plugins_dir/powerlevel10k
+    mac)
+      gum spin --spinner dot --title "Powerlevel10k" -- $PKM powerlevel10k
       ;;
-    mac) $PKM powerlevel10k ;;
     esac
   fi
 

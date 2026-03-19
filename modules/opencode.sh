@@ -3,11 +3,15 @@
 focus_install() {
   log_info "Instalando 'Opencode'..."
   case "$OS_TYPE" in
-  arch) curl -fsSL https://opencode.ai/install | bash ;;
-  debian)
-    curl -fsSL https://opencode.ai/install | bash
+  arch)
+    gum spin --spinner dot --title "Opencode (Arch)" -- bash -c "curl -fsSL https://opencode.ai/install | bash"
     ;;
-  mac) $PKM anomalyco/tap/opencode ;;
+  debian)
+    gum spin --spinner dot --title "Opencode (Debian)" -- bash -c "curl -fsSL https://opencode.ai/install | bash"
+    ;;
+  mac)
+    gum spin --spinner dot --title "Opencode (macOS)" -- $PKM anomalyco/tap/opencode
+    ;;
   esac
 
   link_config "opencode"

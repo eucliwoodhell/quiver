@@ -7,7 +7,6 @@ export MODULES_DIR="$DOTFILES_DIR/modules"
 
 # --- Cargar Utilidades ---
 source "$DOTFILES_DIR/lib/utils.sh"
-source "$DOTFILES_DIR/lib/plugins.sh"
 
 # --- Detección de OS y Package Manager ---
 detect_os
@@ -18,18 +17,26 @@ ensure_gum
 # --- Inicio del Script ---
 print_banner "QUIVER: Archer's Dotfiles Manager"
 
+# 0. Seleccionar utilidades a instalar
+log_section "Paso 1: Utilidades"
+SELECTED_UTILS=$(select_utilities)
+if [ -n "$SELECTED_UTILS" ]; then
+  install_selected_utilities "$SELECTED_UTILS"
+else
+  log_warn "No seleccionaste utilidades. Continuando..."
+fi
+
 # 1. Escanear módulos disponibles en la carpeta modules/
-MODULE_FILES=($(ls "$MODULES_DIR"/*.sh))
-MODULE_NAMES=()
+MODULE_NAMES=($(ls "$MODULES_DIR"/*.sh))
 
-plugins_install
+log_section "Paso 2: Módulos"
 
-# 2. Mostrar menú interactivo con GUM
 if [ -n "$AUTO_SELECT" ]; then
   SELECTED="$AUTO_SELECT"
 else
+  MODULE_BASES=("${MODULE_NAMES[@]##*/}")
   log_info "Usa [ESPACIO] para seleccionar y [ENTER] para confirmar"
-  SELECTED=$(gum choose --no-limit --cursor-prefix "○ " --selected-prefix "◉ " --unselected-prefix "○ " "${MODULE_NAMES[@]}")
+  SELECTED=$(gum choose --no-limit --cursor-prefix "○ " --selected-prefix "◉ " --unselected-prefix "○ " "${MODULE_BASES[@]}")
 fi
 
 if [ -z "$SELECTED" ]; then
