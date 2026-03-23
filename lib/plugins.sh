@@ -30,6 +30,7 @@ install_dev_utils() {
     gum spin --spinner dot --title "Dev tools (Arch)" -- $PKM nodejs cmake git docker atuin uv
     gum spin --spinner dot --title "uv + posting" -- $HOME/.local/bin/uv tool install --python 3.12 posting
     gum spin --spinner dot --title "nvm" -- bash -c "curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash"
+    gum spin --spinner dot --title "lazygit" -- $PKM lazygit
     ;;
   debian)
     gum spin --spinner dot --title "Dev tools (Debian)" -- bash -c "sudo $PKM nodejs npm cmake git docker.io"
@@ -42,6 +43,7 @@ install_dev_utils() {
     gum spin --spinner dot --title "Dev tools (macOS)" -- $PKM node cmake git minikube pyenv docker atuin uv
     gum spin --spinner dot --title "uv + posting" -- uv tool install --python 3.12 posting
     gum spin --spinner dot --title "nvm" -- bash -c "curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash"
+    gum spin --spinner dot --title "lazygit" -- $PKM lazygit
     ;;
   esac
 }
