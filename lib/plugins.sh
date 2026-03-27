@@ -54,16 +54,20 @@ install_extra_utils() {
   case "$OS_TYPE" in
   arch)
     gum spin --spinner dot --title "Extras (AUR)" -- yay -S minikube pyenv postman-bin git-chglog aws-cli-v2 kubecolor catimg gotop firefox
+    gum spin --spinner dot --title "aitutor" -- npm install -g @aitutor/cli@latest
     ;;
   debian)
     gum spin --spinner dot --title "firefox" -- $PKM firefox
     curl -fsSL -o /tmp/kubecolor.tar.gz https://github.com/kubecolor/kubecolor/releases/latest/download/kubecolor_linux_amd64.tar.gz
     gum spin --spinner dot --title "kubecolor" -- tar -xzf /tmp/kubecolor.tar.gz -C /usr/local/bin kubecolor
+    gum spin --spinner dot --title "aitutor" -- npm install -g @aitutor/cli@latest
     ;;
   mac)
     gum spin --spinner dot --title "Extras (macOS)" -- $PKM --cask rectangle firefox mongodb-compass postman awscli kubecolor
     gum spin --spinner dot --title "git-chglog tap" -- brew tap git-chglog/git-chglog
     gum spin --spinner dot --title "git-chglog" -- $PKM git-chglog
+    gum spin --spinner dot --title "naorpeled" -- brew tap naorpeled/tap
+    gum spin --spinner dot --title "aitutor" -- $PKM aitutor
     ;;
   esac
 }

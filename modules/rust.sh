@@ -21,10 +21,6 @@ install_rust_tools() {
     gum spin --spinner dot --title "suvadu" -- ~/.cargo/bin/cargo install suvadu
     echo 'eval "$(suv init zsh)"' >>~/.zshrc
   fi
-
-  if gum confirm "Instalar youtube-tui"; then
-    gum spin --spinner dot --title "starship" -- ~/.cargo/bin/cargo install youtube-tui
-  fi
 }
 
 focus_install() {
