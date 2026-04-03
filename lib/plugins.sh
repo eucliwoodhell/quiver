@@ -3,21 +3,22 @@
 spin() {
   gum spin --spinner dot --title "$1" -- bash -c "$2" 2>/dev/null
 }
-
+s
 install_system_utils() {
   log_info "Instalando utilidades del sistema..."
 
   case "$OS_TYPE" in
   arch)
-    gum spin --spinner dot --title "Sistema (Arch)" -- $PKM jq curl wget ctags net-tools inetutils htop btop pigz ripgrep fzf lsd imagemagick neofetch
+    gum spin --spinner dot --title "Sistema (Arch)" -- $PKM jq curl wget ctags net-tools inetutils htop btop pigz ripgrep fzf lsd imagemagick neofetch bat zoxide
     ;;
   debian)
-    gum spin --spinner dot --title "Sistema (Debian)" -- bash -c "$PKM jq curl wget exuberant-ctags net-tools telnet htop btop pigz ripgrep fzf imagemagick neofetch"
+    gum spin --spinner dot --title "Sistema (Debian)" -- bash -c "$PKM jq curl wget exuberant-ctags net-tools telnet htop btop pigz ripgrep fzf imagemagick neofetch bat"
     curl -sL -o /tmp/lsd.deb https://github.com/lsd-rs/lsd/releases/download/v1.2.0/lsd_1.2.0_amd64.deb
     gum spin --spinner dot --title "Instalando lsd" -- sudo dpkg -i /tmp/lsd.deb
+    curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
     ;;
   mac)
-    gum spin --spinner dot --title "Sistema (macOS)" -- $PKM jq curl wget ctags htop btop pigz ripgrep fzf lsd imagemagick neofetch
+    gum spin --spinner dot --title "Sistema (macOS)" -- $PKM jq curl wget ctags htop btop pigz ripgrep fzf lsd imagemagick neofetch bat zoxide
     ;;
   esac
 }
@@ -27,7 +28,7 @@ install_dev_utils() {
 
   case "$OS_TYPE" in
   arch)
-    gum spin --spinner dot --title "Dev tools (Arch)" -- $PKM nodejs cmake git docker atuin uv
+    gum spin --spinner dot --title "Dev tools (Arch)" -- $PKM nodejs cmake git docker atuin uv glab github-cli
     gum spin --spinner dot --title "uv + posting" -- $HOME/.local/bin/uv tool install --python 3.12 posting
     gum spin --spinner dot --title "nvm" -- bash -c "curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash"
     gum spin --spinner dot --title "lazygit" -- $PKM lazygit
@@ -38,9 +39,11 @@ install_dev_utils() {
     gum spin --spinner dot --title "uv" -- bash -c "curl -fsSL https://astral.sh/uv/install.sh | sh"
     gum spin --spinner dot --title "uv + posting" -- $HOME/.local/bin/uv tool install --python 3.12 posting
     gum spin --spinner dot --title "nvm" -- bash -c "curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash"
+    curl -sSL https://raw.githubusercontent.com/upciti/wakemeops/main/assets/install_repository | sudo bash
+    gum spin --spinner dot --title "glab" -- bash - "sudo apt install glab"
     ;;
   mac)
-    gum spin --spinner dot --title "Dev tools (macOS)" -- $PKM node cmake git minikube pyenv docker atuin uv
+    gum spin --spinner dot --title "Dev tools (macOS)" -- $PKM node cmake git minikube pyenv docker atuin uv gh glab
     gum spin --spinner dot --title "uv + posting" -- uv tool install --python 3.12 posting
     gum spin --spinner dot --title "nvm" -- bash -c "curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash"
     gum spin --spinner dot --title "lazygit" -- $PKM lazygit
