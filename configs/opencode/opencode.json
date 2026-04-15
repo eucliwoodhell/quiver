@@ -20,5 +20,14 @@
       "command": ["uvx", "jcodemunch-mcp"],
       "type": "local"
     }
+  },
+  "agent": {
+    "ask": {
+      "mode": "primary",
+      "prompt": "You have access to no tools, you can only respond to questions",
+      "tools": {
+        "*": false
+      }
+    }
   }
 }
