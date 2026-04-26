@@ -17,8 +17,14 @@
   },
   "mcp": {
     "jcodemunch": {
-      "command": ["uvx", "jcodemunch-mcp"],
-      "type": "local"
+      "type": "remote",
+      "url": "http://localhost:8901/mcp",
+      "enabled": true
+    },
+    "jdocmunch": {
+      "type": "remote",
+      "url": "http://localhost:8901/mcp",
+      "enabled": true
     }
   },
   "agent": {

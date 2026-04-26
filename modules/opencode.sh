@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+abacus_key="$ABACUS_API_KEY"
+abacus_replace_word="__ABACUS_API_KEY__"
 
 focus_install() {
   log_info "Instalando 'Opencode'..."
@@ -14,6 +16,7 @@ focus_install() {
     ;;
   esac
 
+  replace_opencode_config
   link_config "opencode"
   return 0
 }
@@ -32,4 +35,10 @@ add_opencode_config() {
     mkdir -p "$HOME/.config/opencode/themes"
     ln -sfn "$src/themes/"* "$dest/themes/"
   fi
+}
+
+replace_opencode_config() {
+  local src="$CONFIGS_DIR/opencode/opencode.json"
+  log_info "Reemplazando configuración de Opencode..."
+  sed -i "s/$abacus_replace_word/$abacus_key/g" "$src"
 }

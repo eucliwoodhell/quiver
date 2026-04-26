@@ -55,7 +55,9 @@ link_config() {
 
   if [ -d "$src" ]; then
     log_info "Linkeando configuración de $app..."
-    mkdir -p "$HOME/.config"
+    if [ -d "$HOME/.config" ]; then
+      mkdir -p "$HOME/.config"
+    fi
     ln -sfn "$src" "$dest"
   fi
 }
