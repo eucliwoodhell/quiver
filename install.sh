@@ -1,63 +1,63 @@
 #!/usr/bin/env bash
 
-# --- Configuración Global ---
+# --- Global Configuration ---
 export DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export CONFIGS_DIR="$DOTFILES_DIR/configs"
 export MODULES_DIR="$DOTFILES_DIR/modules"
 
-# --- Cargar Utilidades ---
+# --- Load Utilities ---
 source "$DOTFILES_DIR/lib/utils.sh"
 
-# --- Detección de OS y Package Manager ---
+# --- OS and Package Manager Detection ---
 detect_os
 
-# --- Asegurar que GUM esté instalado (para el menú pro) ---
+# --- Ensure GUM is installed (for pro menu) ---
 ensure_gum
 
-# --- Inicio del Script ---
+# --- Script Start ---
 print_banner "QUIVER: Archer's Dotfiles Manager"
 
-# 0. Seleccionar utilidades a instalar
-log_section "Paso 1: Utilidades"
+# 0. Select utilities to install
+log_section "Step 1: Utilities"
 SELECTED_UTILS=$(select_utilities)
 if [ -n "$SELECTED_UTILS" ]; then
   install_selected_utilities "$SELECTED_UTILS"
 else
-  log_warn "No seleccionaste utilidades. Continuando..."
+  log_warn "No utilities selected. Continuing..."
 fi
 
-# 1. Escanear módulos disponibles en la carpeta modules/
+# 1. Scan available modules in modules/ folder
 MODULE_NAMES=($(ls "$MODULES_DIR"/*.sh))
 
-log_section "Paso 2: Módulos"
+log_section "Step 2: Modules"
 
 if [ -n "$AUTO_SELECT" ]; then
   SELECTED="$AUTO_SELECT"
 else
   MODULE_BASES=("${MODULE_NAMES[@]##*/}")
-  log_info "Usa [ESPACIO] para seleccionar y [ENTER] para confirmar"
+  log_info "Use [SPACE] to select and [ENTER] to confirm"
   SELECTED=$(gum choose --no-limit --cursor-prefix "○ " --selected-prefix "◉ " --unselected-prefix "○ " "${MODULE_BASES[@]}")
 fi
 
 if [ -z "$SELECTED" ]; then
-  log_warn "No seleccionaste nada. Saliendo..."
+  log_warn "Nothing selected. Exiting..."
   exit 0
 fi
 
 for item in $SELECTED; do
-  log_section "Instalando: $item"
+  log_section "Installing: $item"
   source "$MODULES_DIR/$item.sh"
 
   if focus_install; then
-    log_success "$item completado con éxito."
+    log_success "$item completed successfully."
   else
-    log_error "Error instalando $item."
+    log_error "Error installing $item."
   fi
 done
 
-if gum confirm "Agregar configuración zsh a .zshrc?"; then
-  log_info "Agregando configuración zsh..."
+if gum confirm "Add zsh configuration to .zshrc?"; then
+  log_info "Adding zsh configuration..."
   echo "source $HOME/.config/zsh/config.zsh" >>~/.zshrc
 fi
 
-print_banner "¡Todo listo, Archer! Disfruta tu setup."
+print_banner "All done, Archer! Enjoy your setup."

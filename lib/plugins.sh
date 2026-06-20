@@ -5,7 +5,7 @@ spin() {
 }
 s
 install_system_utils() {
-  log_info "Instalando utilidades del sistema..."
+  log_info "Installing system utilities..."
 
   case "$OS_TYPE" in
   arch)
@@ -14,7 +14,7 @@ install_system_utils() {
   debian)
     gum spin --spinner dot --title "Sistema (Debian)" -- bash -c "$PKM jq curl wget exuberant-ctags net-tools telnet htop btop pigz ripgrep fzf imagemagick neofetch bat"
     curl -sL -o /tmp/lsd.deb https://github.com/lsd-rs/lsd/releases/download/v1.2.0/lsd_1.2.0_amd64.deb
-    gum spin --spinner dot --title "Instalando lsd" -- sudo dpkg -i /tmp/lsd.deb
+    gum spin --spinner dot --title "Installing lsd" -- sudo dpkg -i /tmp/lsd.deb
     curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
     ;;
   mac)
@@ -24,7 +24,7 @@ install_system_utils() {
 }
 
 install_dev_utils() {
-  log_info "Instalando herramientas de desarrollo..."
+  log_info "Installing development tools..."
 
   case "$OS_TYPE" in
   arch)
@@ -52,7 +52,7 @@ install_dev_utils() {
 }
 
 install_extra_utils() {
-  log_info "Instalando herramientas extras..."
+  log_info "Installing extra utilities..."
 
   case "$OS_TYPE" in
   arch)

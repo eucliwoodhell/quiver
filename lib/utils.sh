@@ -9,7 +9,7 @@ BOLD=$(tput bold)
 RESET=$(tput sgr0)
 
 detect_os() {
-  log_info "Detectando OS..."
+  log_info "Detecting OS..."
   if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     if [ -f /etc/arch-release ]; then
       export OS_TYPE="arch"
@@ -29,7 +29,7 @@ detect_os() {
 
 ensure_gum() {
   if ! command -v gum &>/dev/null; then
-    log_info "Instalando 'gum' para el menú interactivo..."
+    log_info "Installing 'gum' for interactive menu..."
     case "$OS_TYPE" in
     arch) sudo pacman -S --noconfirm gum ;;
     debian)
@@ -54,7 +54,7 @@ link_config() {
   local dest="$HOME/.config/$app"
 
   if [ -d "$src" ]; then
-    log_info "Linkeando configuración de $app..."
+    log_info "Linking $app configuration..."
     if [ -d "$HOME/.config" ]; then
       mkdir -p "$HOME/.config"
     fi
@@ -64,8 +64,8 @@ link_config() {
 
 ensure_git() {
   if ! command -v git &>/dev/null; then
-    log_info "Instalando Git..."
-    gum spin --spinner dot --title "Instalando git" -- $PKM git
+    log_info "Installing Git..."
+    gum spin --spinner dot --title "Installing git" -- $PKM git
   fi
 }
 
@@ -82,11 +82,11 @@ run_spin() {
 }
 
 select_utilities() {
-  log_info "Selecciona las categorías a instalar con [ESPACIO] y confirma con [ENTER]"
+  log_info "Select categories to install with [SPACE] and confirm with [ENTER]"
 
   SELECTED=$(gum choose --no-limit --cursor-prefix "○ " --selected-prefix "◉ " --unselected-prefix "○ " \
-    "Sistema (jq, curl, ripgrep, htop, fzf...)" \
-    "Desarrollo (git, docker, node, pyenv...)" \
+    "System (jq, curl, ripgrep, htop, fzf...)" \
+    "Development (git, docker, node, pyenv...)" \
     "Extras (firefox, postman, minikube...)")
 
   echo "$SELECTED"

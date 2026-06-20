@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 focus_install() {
-  log_info "Instalando Neovim..."
+  log_info "Installing Neovim..."
 
   gum spin --spinner dot --title "Neovim" -- $PKM neovim
 
@@ -12,11 +12,11 @@ focus_install() {
 }
 
 install_nvim_configs() {
-  if gum confirm "Instalar configs de Neovim?"; then
-    log_info "Instalando Neovim configs..."
+  if gum confirm "Install Neovim configs?"; then
+    log_info "Installing Neovim configs..."
     gum spin --spinner dot --title "Neovim configs" -- git clone https://github.com/eucliwoodhell/my-nvim-lua.git ~/.config/nvim
 
-    if gum confirm "Desea utilizar la rama lazy?"; then
+    if gum confirm "Use lazy branch?"; then
       git -C ~/.config/nvim checkout lazy-config
     fi
   fi

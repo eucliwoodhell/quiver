@@ -3,7 +3,7 @@ abacus_key="$ABACUS_API_KEY"
 abacus_replace_word="__ABACUS_API_KEY__"
 
 focus_install() {
-  log_info "Instalando 'Opencode'..."
+  log_info "Installing 'Opencode'..."
   case "$OS_TYPE" in
   arch)
     gum spin --spinner dot --title "Opencode (Arch)" -- bash -c "curl -fsSL https://opencode.ai/install | bash"
@@ -22,16 +22,16 @@ focus_install() {
 }
 
 add_opencode_config() {
-  log_info "Agregando configuración de Opencode..."
+  log_info "Adding Opencode configuration..."
   local src="$CONFIGS_DIR/opencode/"
   local dest="$HOME/.config/opencode"
 
   if [ -d "$src" ]; then
-    log_info "Linkeando configuración de opencode..."
+    log_info "Linking opencode configuration..."
     mkdir -p "$HOME/.config/opencode"
     ln -sfn "$src/opencode.json" "$dest/opencode.json"
 
-    log_info "Agregando themes de opencode..."
+    log_info "Adding opencode themes..."
     mkdir -p "$HOME/.config/opencode/themes"
     ln -sfn "$src/themes/"* "$dest/themes/"
   fi
@@ -39,6 +39,6 @@ add_opencode_config() {
 
 replace_opencode_config() {
   local src="$CONFIGS_DIR/opencode/opencode.json"
-  log_info "Reemplazando configuración de Opencode..."
+  log_info "Replacing Opencode configuration..."
   sed -i "s/$abacus_replace_word/$abacus_key/g" "$src"
 }
