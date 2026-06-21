@@ -34,6 +34,10 @@ add_opencode_config() {
     log_info "Adding opencode themes..."
     mkdir -p "$HOME/.config/opencode/themes"
     ln -sfn "$src/themes/"* "$dest/themes/"
+
+    log_info "Adding abacus path to opencode config..."
+    mkdir -p "$HOME/.abacus-ai"
+    touch "$HOME/.abacus-ai/api-key"
   fi
 }
 
